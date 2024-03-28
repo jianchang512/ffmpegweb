@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在线视频工具箱-pyvideotrans.com视频翻译配音</title>
+    <link href="/static/layui/css/layui.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        .flex {
+            display: flex;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .align-top {
+            align-items: flex-start;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .mt-1 {
+            margin-top: 8px !important;
+        }
+
+        .mr-1 {
+            margin-right: 5px !important;
+        }
+
+        .ml-1 {
+            margin-left: 5px !important;
+        }
+
+        .mb-1 {
+            margin-bottom: 8px !important;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mx-1{
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .my-1{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .d-block {
+            display: block;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .layui-bg-black .layui-card {
+            background: transparent;
+        }
+
+        .layui-bg-black {
+            background-color: #222 !important;
+        }
+
+        .layui-bg-black .layui-card-header {
+            color: #fff;
+            border-color: #666;
+        }
+
+        .layui-bg-black .layui-upload-drag,
+        .layui-bg-black .layui-layer,
+        .layui-bg-black .layui-select,
+        .layui-bg-black .layui-textarea {
+            border: 1px solid #444;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .layui-upload-drag {
+            margin: 20px auto;
+            padding: 50px 30px;
+        }
+
+        .noborder {
+            border: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        a {
+            color: #f1f1f1;
+        }
+
+        h1 {
+            margin: 15px auto;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        #layui-nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 99;
+        }
+
+        .layui-container {
+            margin-top: 80px;
+        }
+
+        .layui-tab-card>.layui-tab-title {
+            background: transparent;
+        }
+
+        .layui-tab-card>.layui-tab-title,
+        .layui-tab-card {
+            border-color: #666;
+
+        }
+
+        .layui-tab-card>.layui-tab-title li:hover {
+            color: #009688;
+        }
+
+        .layui-tab-card>.layui-tab-title .layui-this {
+            background-color: #009688;
+            color: #fff !important;
+        }
+
+        .layui-tab-card>.layui-tab-title .layui-this:after {
+            border: none;
+        }
+
+        .layui-upload-drag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            position: relative;
+        }
+
+        .layui-upload-drag .inputfile {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            opacity: 0;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .layui-upload-drag .preview {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .layui-upload-drag video {
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .layui-upload-drag audio {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        .layui-upload-drag .close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 3;
+        }
+
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="layui-bg-black	">
+    <ul id="layui-nav" class="layui-nav">
+        <li class="layui-nav-item"><a href="https://pyvideotrans.com" target="_blank">pyVideoTrans视频翻译配音</a></li>
+        <li class="layui-nav-item "><a href="https://tts.pyvideotrans.com">在线文字转声音</a></li>
+        <li class="layui-nav-item "><a href="https://stt.pyvideotrans.com">在线声音转文字</a></li>
+        <li class="layui-nav-item  layui-this"><a href="#">在线视频工具箱</a></li>
+        <li class="layui-nav-item "><a href="https://github.com/jianchang512/pyvideotrans" target="_blank">GitHub</a>
+        </li>
+    </ul>
+    <div class="layui-container " id="app" v-cloak>
+        <div class="layui-row ">
+            <div class="layui-col-md6 layui-col-sm12">
+                <div class="layui-upload-drag mr-1" id="upload1">
+                    <input accept=".mp4,.mov,.avi,.mpeg,.mkv,.wav,.mp3,.flac,.acc,.srt" class="inputfile" type="file"
+                        @change="upload($event,'upload1')">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <div> 点击上传音频或视频或字幕</div>
+                    <div class="preview" v-if="videoFiles['upload1'] || audioFiles['upload1']">
+                        <video v-if="videoFiles['upload1']" :src="videoFiles['upload1']['src']" controls></video>
+                        <audio v-else-if="audioFiles['upload1']" :src="audioFiles['upload1']['src']" controls></audio>
+                    </div>
+                    <i v-if="videoFiles['upload1'] || audioFiles['upload1']" @click="closepreview('upload1')"
+                        class="pointer close layui-icon layui-icon-close"></i>
+                </div>
+            </div>
+            <div class="layui-col-md6 layui-col-sm12">
+                <div class="layui-upload-drag ml-1" id="upload2">
+                    <input accept=".mp4,.mov,.avi,.mpeg,.mkv,.wav,.mp3,.flac,.acc,.srt" class="inputfile" type="file"
+                        @change="upload($event,'upload2')">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <div> 点击上传音频或视频或字幕</div>
+                    <div class="preview" v-if="videoFiles['upload2'] || audioFiles['upload2']">
+                        <video v-if="videoFiles['upload2']" :src="videoFiles['upload2']['src']" controls></video>
+                        <audio v-else-if="audioFiles['upload2']" :src="audioFiles['upload2']['src']" controls></audio>
+                    </div>
+                    <i v-if="videoFiles['upload2'] || audioFiles['upload2']" @click="closepreview('upload2')"
+                        class="pointer close layui-icon layui-icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div id="tips" class="mt-1 mb-1 text-center">{{message}}</div>
+
+
+        <div class="layui-tab layui-tab-card noborder">
+            <ul class="layui-tab-title">
+                <li class="layui-this">从视频中提取音频</li>
+                <li class="">截取音频或视频片段</li>
+                <li>从视频截取一帧图片</li>
+                <li>音频/视频格式转换</li>
+                <li>将字幕嵌入视频</li>
+                <li>合并视频和音频</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-margin-1">
+                        上传视频后可提取音频，最多可上传2个视频
+                    </div>
+                    <template v-if="videoNums>=1">
+                        <div class="flex align-center mt-1 mb-1" v-for="it,id in videoFiles" :key="id">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_sep(id)">从视频 {{it['name']}} 中提取音频 {{id}}</button>
+                            <audio class="ml-1" v-if="sep_audioFiles[id]" controls :src="sep_audioFiles[id]"></audio>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="sep_audioFiles[id]"
+                                download="separate_from_video.wav" :href="sep_audioFiles[id]">下载</a>
+                        </div>
+                    </template>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-margin-1">
+                        上传视频或音频后，可在此截取音频或视频的某些片段，最多上传2个视频或2个音频或1个视频一个音频
+                    </div>
+                    <div>
+                        <div class="layui-block">
+                            <label class="layui-form-label" style="width: auto;">截取片段开始和结束时间范围</label>
+                            <div class="layui-input-inline">
+                                <input readonly style="width: 300px;display: inline-block;" type="text"
+                                    class="layui-input" ref="jiequ_range_time" id="jiequ_range_time"
+                                    placeholder="在此选取截取开始和结束时间范围">
+                            </div>
+                        </div>
+                    </div>
+
+                    <template v-if="videoNums>=1 || audioNums>=1">
+                        <div class="my-1" v-for="it,id in videoFiles" :key="id">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_jiequ(id,it['name'],'mp4')">从视频 {{it['name']}} 截取片段 {{id}}</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="it['pianduan_src']"
+                                :download="it['pianduan_name']" :href="it['pianduan_src']">下载</a>
+                            <video class="d-block my-1" v-if="it['pianduan_src']" :src="it['pianduan_src']" controls></video>
+                        </div>
+                        <div class="flex align-center my-1" v-for="it,id in audioFiles" :key="id">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_jiequ(id,it['name'],'wav')">从音频 {{it['name']}} 截取片段 {{id}}</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="it['pianduan_src']"
+                                :download="it['pianduan_name']" :href="it['pianduan_src']">下载</a>
+                            <audio class="my-1 mx-1" v-if="it['pianduan_src']" :src="it['pianduan_src']" controls></audio>
+                        </div>
+                    </template>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-margin-1">
+                        至少上传一个视频后可在此截取视频里的某帧图片, 最多可上传2个视频
+                    </div>
+                    <div>
+                        <div class="layui-block">
+                            <label class="layui-form-label" style="width: auto;">截取第几秒的图片</label>
+                            <div class="layui-input-inline">
+                                <input readonly style="width: 120px;display: inline-block;" type="text"
+                                    class="layui-input" ref="jietu_time" id="jietu_time" placeholder="截取第几秒的图片">
+                            </div>
+                        </div>
+                    </div>
+                    <template v-if="videoNums>=1">
+                        <div class="flex align-top my-1" v-for="it,id in videoFiles" :key="id">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_jietu(id,it['name'])">从视频
+                                {{it['name']}} 截取第几秒的图片 {{id}}</button>
+                        </div>
+                        <template v-if="pnglist.length>0">
+                            <img v-for="it in pnglist" title="右键图片另存为下载" :src="it"
+                                style="display: inline-block;margin: 8px;">
+                        </template>
+                    </template>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-margin-1">
+                        上传视频或音频后可在此转换格式, 最多可上传合计2个音频或2个视频或1个视频一个音频
+                    </div>
+                    <template v-if="videoNums>=1 || audioNums>=1">
+                        <div class="flex align-center my-1" v-for="it,id in videoFiles" :key="id">
+                            <span>转换视频 {{it['name']}} 到</span>
+                            <select v-model="formats[id]" class="layui-select">
+                                <option value="">目标格式&#129095;</option>
+                                <option v-for="it in exts" :key="it" :value="it">{{it}}</option>
+                            </select>
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_geshi(id,it['name'],'mp4')">开始转换</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="formats_results[id]['file']"
+                                :download="formats_results[id]['name']"
+                                :href="formats_results[id]['file']">下载转换结果{{formats_results[id]['name']}}</a>
+                        </div>
+                        <div class="flex align-center my-1" v-for="it,id in audioFiles" :key="id">
+                            <span>转换音频 {{it['name']}} 到</span>
+                            <select v-model="formats[id]" class="layui-select">
+                                <option value="">目标格式&#129095;</option>
+                                <template v-for="it in exts" :key="it">
+                                    <option v-if="aexts.indexOf(it)>-1" :value="it">{{it}}</option>
+                                </template>
+                            </select>
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_geshi(id,it['name'],'wav')">开始转换</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="formats_results[id]['file']"
+                                :download="formats_results[id]['name']"
+                                :href="formats_results[id]['file']">下载转换结果{{formats_results[id]['name']}}</a>
+                        </div>
+                    </template>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-margin-1">
+                        至少上传一个视频后可在此将字幕嵌入视频，最多上传2个视频。请先上传一个srt字幕文件
+                    </div>
+                    <template v-if="videoNums>=1">
+                        <div class="flex align-top my-1" v-for="it,id in videoFiles" :key="id">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_sub(id,it['name'])">将字幕嵌入视频{{it['name']}}中</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="srtresult['file']"
+                                :download="srtresult['name']" :href="srtresult['file']">下载结果视频{{srtresult['name']}}</a>
+
+                            <video class="d-block" v-if="srtresult && srtresult['file']" :src="srtresult['file']"
+                                controls></video>
+                        </div>
+                    </template>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-margin-1">
+                        如果想将视频和音频混合，可上传一个视频和一个音频，在此将他们混合
+                    </div>
+                    <template v-if="videoNums==1 && audioNums==1">
+                        <div class="flex align-top mt-1 mb-1">
+                            <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
+                                @click="start_hebing(videoname)">将视频{{videoname}}和音频{{audioname}}合并</button>
+                            <a class="ml-1 layui-btn layui-btn-normal" v-if="hebingresult['file']"
+                                :download="hebingresult['name']"
+                                :href="hebingresult['file']">下载结果视频{{hebingresult['name']}}</a>
+
+                        </div>
+                        <video class="mx-auto my-1" v-if="hebingresult && hebingresult['file']"
+                            :src="hebingresult['file']" controls></video>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <textarea class="layui-textarea" readonly v-if="srtfile && srtfile.text">{{srtfile.text}}</textarea>
+    </div>
+
+
+
+
+
+
+    <script src="/static/layui/layui.js"></script>
+    <script src="/static/assets/ffmpeg/package/dist/umd/ffmpeg.js"></script>
+    <script src="/static/assets/util/package/dist/umd/index.js"></script>
+    <script src="/static/vue.js"></script>
+
+
+    <script>
+        const { fetchFile } = FFmpegUtil;
+        const { FFmpeg } = FFmpegWASM;
+        const { createApp } = Vue
+        let ffmpeg = null;
+        let exts = ["wav", "mp3", "flac", "aac", "mp4", "avi", "mov", "mkv", "mpeg"];
+        let vexts = ['mp4', 'avi', 'mpeg', 'mov', 'mkv'];
+        let aexts = ['wav', 'mp3', 'flac', 'aac']
+        window.$ = layui.$;
+        var fontFile = "./simhei.ttf";
+        var fontURL = "./fonts/simhei.ttf";
+
+
+
+        const app = createApp({
+            data() {
+                return {
+                    exts: ["wav", "mp3", "flac", "aac", "mp4", "avi", "mov", "mkv", "mpeg"],
+                    aexts: ['wav', 'mp3', 'flac', 'aac'],
+                    vexts: ['mp4', 'avi', 'mpeg', 'mov', 'mkv'],
+                    sep_audioFiles: {},
+                    videoFiles: {},
+                    audioFiles: {},
+                    pnglist: [],
+                    srtfile: "",
+                    srtresult: {},
+                    hebingresult: {},
+                    message: '',
+                    formats: {
+                        "upload1": "",
+                        "upload2": "",
+                    },
+                    formats_results: {
+                        "upload1": {},
+                        "upload2": {},
+                    }
+
+                }
+            },
+            computed: {
+                videoNums() {
+                    return Object.keys(this.videoFiles).length
+                },
+                audioNums() {
+                    return Object.keys(this.audioFiles).length
+                },
+                videoname() {
+                    for (let i in this.videoFiles) {
+                        return this.videoFiles[i]['name']
+                    }
+                },
+                audioname() {
+                    for (let i in this.audioFiles) {
+                        return this.audioFiles[i]['name']
+                    }
+                }
+            },
+            watch: {
+
+            },
+            mounted() {
+                // 截取 时间范围
+                layui.laydate.render({
+                    elem: '#jiequ_range_time',
+                    type: 'time',
+                    range: true,
+                    value: "00:00:00 - 00:00:02",
+                    isInitValue: true
+                });
+                layui.laydate.render({
+                    elem: '#jietu_time',
+                    type: 'time',
+                    range: false,
+                    value: "00:00:01",
+                    isInitValue: true
+                });
+            },
+            methods: {
+                // 上传
+                upload(e, id) {
+                    console.log(e.target.files)
+                    let file = e.target.files[0];
+                    let tmps = file.name.split('.')
+                    console.log(`tmps=${tmps}`)
+                    let ext = tmps[tmps.length - 1].toLowerCase();
+                    console.log(`ext=${ext}`)
+                    this.transcode(file, id, ext);
+                },
+                // 关闭预览
+                closepreview(id) {
+                    if (this.videoFiles[id]) {
+                        delete this.videoFiles[id];
+                    } else if (this.audioFiles[id]) {
+                        delete this.audioFiles[id];
+                    }
+                },
+                // 上传预览 初始化数据
+                async transcode(file, id, ext) {
+                    let load1 = layer.load();
+                    this.message = '预处理中请等待..';
+                    await this.loadffmpeg()
+                    const { name, type } = file;
+
+                    await ffmpeg.writeFile(name, await fetchFile(file));
+                    console.log("ext=" + ext);
+                    if (ext === 'srt') {
+                        layer.close(load1)
+
+                        this.srtfile = { name: file.name, file: name, blobfile: file, text: "" }
+                        const reader = new FileReader();
+
+                        reader.addEventListener(
+                            "load",
+                            () => {
+                                // this will then display a text file
+                                this.srtfile['text'] = reader.result;
+                            },
+                            false,
+                        );
+                        reader.readAsText(file)
+                        this.message = "完成预处理";
+                        return
+                    }
+
+                    let newext = vexts.indexOf(ext) > -1 ? 'mp4' : 'wav'
+                    let outname = `output-${id}.${newext}`
+                    console.log(`outname=${outname}`)
+
+                    await ffmpeg.exec(['-i', name, outname]);
+
+                    this.message = "完成预处理";
+                    const data = await ffmpeg.readFile(outname);
+                    let elemt = "";
+                    if (newext === 'wav') {
+                        let src = URL.createObjectURL(new Blob([data.buffer], { type: "audio/wav" }))
+                        this.audioFiles[id] = { file: outname, name: name, src: src, pianduan_src: "", pianduan_name: "" }
+                    } else {
+                        let src = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }))
+                        this.videoFiles[id] = { file: outname, name: name, src: src, pianduan_src: "", pianduan_name: "" }
+                    }
+                    layer.close(load1)
+                },
+                // 合并音频和视频
+                async start_hebing(name) {
+
+                    if (!this.videoFiles || Object.keys(this.videoFiles).length != 1) {
+                        layer.alert('你必须上传一个视频和一个音频，才可使用合并功能', { title: false })
+                        return;
+                    }
+                    if (!this.audioFiles || Object.keys(this.audioFiles).length != 1) {
+                        layer.alert('你必须上传一个视频和一个音频，才可使用合并功能', { title: false })
+                        return;
+                    }
+
+                    let load1 = layer.load();
+
+                    await this.loadffmpeg()
+                    let outname = `${name}-hebing.mp4`
+                    console.log(`outname=${outname}`)
+                    await ffmpeg.writeFile(fontFile, await fetchFile(fontURL));
+                    let vid = Object.keys(this.videoFiles)[0]
+                    let aid = Object.keys(this.audioFiles)[0]
+                    let cmd = [
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.videoFiles[vid]['file'],
+                        "-i",
+                        this.audioFiles[aid]['file'],
+                        '-filter_complex',
+                        "[1:a]apad",
+                        '-c:v',
+                        'libx264',
+                        "-c:a",
+                        "aac",
+                        "-shortest",
+
+                        outname,
+                    ]
+                    console.log(cmd)
+                    console.log(this.srtfile)
+                    await ffmpeg.exec(cmd);
+                    console.log(outname);
+                    const data = await ffmpeg.readFile(outname);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));
+                    this.hebingresult = { file: blob, name: outname }
+                    layer.close(load1)
+                },
+
+                // 嵌入字幕
+                async start_sub(id, name) {
+                    if (!this.srtfile || !this.srtfile['file']) {
+                        layer.alert('你必须上传一个srt字幕文件，才可使用嵌入字幕功能', { title: false })
+                        return;
+                    }
+                    if (!this.videoFiles || Object.keys(this.videoFiles).length < 1) {
+                        layer.alert('你必须至少上传一个视频，才可使用嵌入字幕功能', { title: false })
+                        return;
+                    }
+
+                    let load1 = layer.load();
+                    console.log(`id=${id}`)
+
+                    await this.loadffmpeg()
+                    let outname = `${name}-srt.mp4`
+                    console.log(`outname=${outname}`)
+                    await ffmpeg.writeFile(fontFile, await fetchFile(fontURL));
+                    let cmd = [
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.videoFiles[id]['file'],
+                        '-vf',
+                        `subtitles=${this.srtfile['file']}:fontsdir=./:force_style='Fontname=simhei,Fontsize=18'`,
+                        '-c:v',
+                        'libx264',
+                        outname,
+                    ]
+                    console.log(cmd)
+                    console.log(this.srtfile)
+                    await ffmpeg.exec(cmd);
+                    console.log(outname);
+                    const data = await ffmpeg.readFile(outname);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));
+                    this.srtresult = { file: blob, name: outname }
+                    layer.close(load1)
+                },
+
+                // 开始转换格式
+                async start_geshi(id, name, ext) {
+                    if (ext == 'mp4' && (!this.videoFiles || Object.keys(this.videoFiles).length < 1)) {
+                        layer.alert('你必须至少上传一个视频，才可使用嵌入字幕功能', { title: false })
+                        return;
+                    }
+                    if (ext == 'wav' && (!this.audioFiles || Object.keys(this.audioFiles).length < 1)) {
+                        layer.alert('你必须至少上传一个音频，才可使用嵌入字幕功能', { title: false })
+                        return;
+                    }
+
+                    let newext = this.formats[id]
+                    if (ext == 'newext') {
+                        layer.alert('目标格式不可与原格式相同', { title: false })
+                        return;
+                    }
+                    if (!ext) {
+                        layer.alert('必须选择要转换到的目标格式', { title: false })
+                        return;
+                    }
+
+                    let load1 = layer.load();
+                    console.log(`id=${id}`)
+                    console.log(`newext=${newext}`)
+
+                    await this.loadffmpeg()
+                    let outname = `${name}-${id}.${newext}`
+                    console.log(`outname=${outname}`)
+                    await ffmpeg.exec([
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        ext === 'mp4' ? this.videoFiles[id]['file'] : this.audioFiles[id]['file'],
+                        outname,
+                    ]);
+                    console.log(outname);
+                    const data = await ffmpeg.readFile(outname);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: aexts.indexOf(newext) > -1 ? `audio/${newext}` : `video/${newext}` }));
+                    this.formats_results[id] = { file: blob, name: outname }
+                    layer.close(load1)
+                },
+
+                // 从视频截取图片
+                async start_jietu(id, name) {
+                    if (!this.videoFiles || Object.keys(this.videoFiles).length < 1) {
+                        layer.alert('你必须至少上传一个视频，才可使用截图图片功能', { title: false })
+                        return;
+                    }
+                    let load1 = layer.load();
+                    console.log(`id=${id}`)
+                    let time = this.$refs.jietu_time.value.trim()
+
+                    await this.loadffmpeg()
+                    let outname = `${name}-${time.replace(/:/g, '-')}.png`
+                    console.log(`outname=${outname}`)
+                    await ffmpeg.exec([
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.videoFiles[id]['file'],
+                        "-ss",
+                        time,
+                        "-vframes",
+                        "1",
+                        outname,
+                    ]);
+                    console.log(outname);
+                    const data = await ffmpeg.readFile(outname);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: "image/png" }));
+                    this.pnglist.push(blob)
+                    layer.close(load1)
+                },
+
+                // 从音频视频截取片段
+                async start_jiequ(id, name, ext) {
+                    if ((!this.videoFiles || Object.keys(this.videoFiles).length < 1) && (!this.audioFiles || Object.keys(this.audioFiles).length < 1)) {
+                        layer.alert('你必须至少上传一个视频或音频，才可使用截取片段功能', { title: false })
+                        return;
+                    }
+                    let load1 = layer.load();
+                    console.log(`id=${id}`)
+                    let start_end = this.$refs.jiequ_range_time.value.split('-').map(it => it.trim())
+
+                    await this.loadffmpeg()
+                    let outname = `${name}-${start_end[0].replace(/:/g, '-')}-${start_end[1].replace(/:/g, '-')}.${ext}`
+                    console.log(`outname=${outname}`)
+                    await ffmpeg.exec([
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        ext == 'mp4' ? this.videoFiles[id]['file'] : this.audioFiles[id]['file'],
+                        "-ss",
+                        start_end[0],
+                        "-to",
+                        start_end[1],
+                        outname,
+                    ]);
+                    console.log(outname);
+                    const data = await ffmpeg.readFile(outname);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: ext === 'mp4' ? "video/mp4" : "audio/wav" }));
+                    if (ext == 'mp4') {
+                        this.videoFiles[id]['pianduan_src'] = blob
+                        this.videoFiles[id]['pianduan_name'] = outname
+                    } else {
+                        this.audioFiles[id]['pianduan_src'] = blob
+                        this.audioFiles[id]['pianduan_name'] = outname
+
+                    }
+                    layer.close(load1)
+                },
+                // 加载wasm
+                async loadffmpeg() {
+                    if (ffmpeg === null) {
+                        ffmpeg = new FFmpeg();
+                        ffmpeg.on("log", ({ message }) => {
+                            console.log(message);
+                        });
+                        ffmpeg.on("progress", ({ progress, time }) => {
+                            this.message = `预处理进度${parseInt(
+                                progress * 100
+                            )} %`;
+                        });
+                        await ffmpeg.load({
+                            coreURL: "/static/assets/core/package/dist/umd/ffmpeg-core.js",
+                        });
+                    }
+                },
+                // 从视频中提取音频
+                async start_sep(id) {
+                    if (!this.videoFiles || Object.keys(this.videoFiles).length < 1) {
+                        layer.alert('至少需要上传一个视频，才可提取音频', { title: false })
+                        return
+                    }
+                    let load1 = layer.load();
+                    this.loadffmpeg()
+                    console.log(`id=${id}`)
+                    console.log(`this.videoFiles[id]['file']=${this.videoFiles[id]['name']}`)
+                    console.log(`output-${id}.wav`)
+                    console.time("exec");
+                    await ffmpeg.exec([
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.videoFiles[id]['file'],
+                        "-ac",
+                        "1",
+                        "-ar",
+                        "8000",
+                        "-acodec",
+                        "pcm_s16le",
+                        `output-${id}.wav`,
+                    ]);
+                    console.timeEnd("exec");
+                    const data = await ffmpeg.readFile(`output-${id}.wav`);
+                    let blob = URL.createObjectURL(new Blob([data.buffer], { type: "audio/wav" }));
+                    this.sep_audioFiles[id] = blob;
+                    console.log(`keys=${Object.keys(this.sep_audioFiles)}`)
+                    layer.close(load1)
+                }
+            },
+        }).mount('#app')
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

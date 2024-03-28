@@ -144,6 +144,10 @@
         .layui-tab-card>.layui-tab-title .layui-this:after {
             border: none;
         }
+        .layui-bg-black .layui-tab-bar{
+            background-color: #444;
+            border-color: #333;
+        }
 
         .layui-upload-drag {
             display: flex;
@@ -370,13 +374,13 @@
                         至少上传一个视频后可在此将字幕嵌入视频，最多上传2个视频。请先上传一个srt字幕文件
                     </div>
                     <template v-if="videoNums>=1">
-                        <div class="flex align-top my-1" v-for="it,id in videoFiles" :key="id">
+                        <div class=" align-top my-1" v-for="it,id in videoFiles" :key="id">
                             <button class="mr-1 layui-btn layui-btn-primary layui-border-green"
                                 @click="start_sub(id,it['name'])">将字幕嵌入视频{{it['name']}}中</button>
                             <a class="ml-1 layui-btn layui-btn-normal" v-if="srtresult['file']"
                                 :download="srtresult['name']" :href="srtresult['file']">下载结果视频{{srtresult['name']}}</a>
 
-                            <video class="d-block" v-if="srtresult && srtresult['file']" :src="srtresult['file']"
+                            <video class="d-block my-1" v-if="srtresult && srtresult['file']" :src="srtresult['file']"
                                 controls></video>
                         </div>
                     </template>

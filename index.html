@@ -48,6 +48,7 @@
             margin-left: 5px;
             margin-right: 5px;
         }
+		
         .my-1{
             margin-top: 5px;
             margin-bottom: 5px;
@@ -116,6 +117,8 @@
             top: 0;
             left: 0;
             z-index: 99;
+			overflow:auto;
+			white-space:nowrap
         }
 
         .layui-container {
@@ -221,7 +224,11 @@
         <li class="layui-nav-item "><a href="https://github.com/jianchang512/pyvideotrans" target="_blank">GitHub</a>
         </li>
     </ul>
-    <div class="layui-container " id="app" v-cloak>
+    <div class="layui-container " id="app" v-cloak>	
+		<div class="  " style="text-align:center;margin:30px auto 20px;font-size:14px">
+			这是本地工具，页面显示可用后可断网使用
+			<span class="layui-font-12 mx-1 layui-badge" :class="hasinit?'layui-bg-green':''">{{!hasinit?"页面准备中...":"页面已可用"}}</span>
+		</div>
         <div class="layui-row ">
             <div class="layui-col-md6 layui-col-sm12">
                 <div class="layui-upload-drag mr-1" id="upload1">
@@ -454,7 +461,8 @@
                     formats_results: {
                         "upload1": {},
                         "upload2": {},
-                    }
+                    },
+					hasinit:false
 
                 }
             },
@@ -495,6 +503,8 @@
                     value: "00:00:01",
                     isInitValue: true
                 });
+				this.loadffmpeg();
+				this.hasinit=true
             },
             methods: {
                 // 上传
@@ -770,9 +780,11 @@
                             console.log(message);
                         });
                         ffmpeg.on("progress", ({ progress, time }) => {
-                            this.message = `预处理进度${parseInt(
-                                progress * 100
-                            )} %`;
+							if(this.hasinit){
+								this.message = `预处理进度${parseInt(
+									progress * 100
+								)} %`;
+							}
                         });
                         await ffmpeg.load({
                             coreURL: "/static/assets/core/package/dist/umd/ffmpeg-core.js",

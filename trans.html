@@ -263,7 +263,7 @@
                     <input accept=".mp4,.mov,.avi,.mpeg,.mkv,.wav,.mp3,.flac,.acc,.srt" class="inputfile" type="file"
                         @change="upload($event)">
                     <i class="layui-icon layui-icon-upload"></i>
-                    <div>点击上传视频视频</div>
+                    <div>点击上传视频</div>
                     <div class="preview" v-if="raw_video && raw_video['src']">
                         <video :src="raw_video['src']" controls></video>
                     </div>

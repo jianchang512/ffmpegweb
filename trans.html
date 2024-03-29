@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在线视频翻译配音-pyvideotrans.com视频翻译配音</title>
+    <link href="/static/layui/css/layui.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        .flex {
+            display: flex;
+        }
+
+        .align-center {
+            align-items: center;
+        }
+
+        .align-top {
+            align-items: flex-start;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .mt-1 {
+            margin-top: 8px !important;
+        }
+
+        .mr-1 {
+            margin-right: 5px !important;
+        }
+
+        .ml-1 {
+            margin-left: 5px !important;
+        }
+
+        .mb-1 {
+            margin-bottom: 8px !important;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mx-1 {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .my-1 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .my-2 {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .my-3 {
+            margin-top: 15px !important;
+            margin-bottom: 15px !important;
+        }
+
+        .d-block {
+            display: block;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .layui-bg-black .layui-card {
+            background: transparent;
+        }
+
+        .layui-bg-black {
+            background-color: #222 !important;
+        }
+
+        .layui-bg-black .layui-card-header {
+            color: #fff;
+            border-color: #666;
+        }
+
+        .layui-bg-black .layui-upload-drag,
+        .layui-bg-black .layui-layer,
+        .layui-bg-black .layui-select,
+        .layui-bg-black .layui-textarea {
+            border: 1px solid #444;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .layui-upload-drag {
+            margin: 20px auto;
+            padding: 50px 30px;
+        }
+
+        .noborder {
+            border: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        a {
+            color: #f1f1f1;
+        }
+
+        h1 {
+            margin: 15px auto;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        #layui-nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            overflow: auto;
+            white-space: nowrap
+        }
+
+        .layui-container {
+            margin-top: 80px;
+        }
+
+        .layui-tab-card>.layui-tab-title {
+            background: transparent;
+        }
+
+        .layui-tab-card>.layui-tab-title,
+        .layui-tab-card {
+            border-color: #666;
+
+        }
+
+        .layui-tab-card>.layui-tab-title li:hover {
+            color: #009688;
+        }
+
+        .layui-tab-card>.layui-tab-title .layui-this {
+            background-color: #009688;
+            color: #fff !important;
+        }
+
+        .layui-tab-card>.layui-tab-title .layui-this:after {
+            border: none;
+        }
+
+        .layui-bg-black .layui-tab-bar {
+            background-color: #444;
+            border-color: #333;
+        }
+
+        .layui-upload-drag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            position: relative;
+        }
+
+        .layui-upload-drag .inputfile {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            opacity: 0;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .layui-upload-drag .preview {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .layui-upload-drag video {
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .layui-upload-drag audio {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        .layui-upload-drag .close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 3;
+        }
+
+        .form-item {
+            display: flex;
+            align-items: center;
+            margin: 10px auto;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .input-block {
+            width: 50%;
+        }
+
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({ id: "KO5lYldwVUTyC8eE", ck: "KO5lYldwVUTyC8eE" })</script>
+</head>
+
+<body class="layui-bg-black	">
+    <ul id="layui-nav" class="layui-nav">
+        <li class="layui-nav-item"><a href="https://www.pyvideotrans.com">文档主站</a></li>
+        <li class="layui-nav-item "><a href="https://tts.pyvideotrans.com">文字转声音</a></li>
+        <li class="layui-nav-item "><a href="https://stt.pyvideotrans.com">声音转文字</a></li>
+        <li class="layui-nav-item "><a href="https://stt.pyvideotrans.com/trans.html">字幕翻译</a></li>
+        <li class="layui-nav-item  layui-this"><a href="https://tool.pyvideotrans.com/trans.html">视频翻译配音</a></li>
+        <li class="layui-nav-item"><a href="https://tool.pyvideotrans.com">视频工具箱</a></li>
+        <li class="layui-nav-item "><a href="https://github.com/jianchang512/pyvideotrans" target="_blank">GitHub</a>
+        </li>
+    </ul>
+    <div class="layui-container " id="app" v-cloak>
+        <div class="  " style="text-align:center;margin:30px auto 20px;font-size:14px">
+            在线视频翻译配音工具
+        </div>
+        <div class="layui-row ">
+            <div class="layui-col-md8 layui-col-sm12">
+                <div class="layui-upload-drag mr-1" id="upload1">
+                    <input accept=".mp4,.mov,.avi,.mpeg,.mkv,.wav,.mp3,.flac,.acc,.srt" class="inputfile" type="file"
+                        @change="upload($event)">
+                    <i class="layui-icon layui-icon-upload"></i>
+                    <div>点击上传视频视频</div>
+                    <div class="preview" v-if="raw_video && raw_video['src']">
+                        <video :src="raw_video['src']" controls></video>
+                    </div>
+                    <i v-if="raw_video && raw_video['src']" @click="closepreview" class="pointer close layui-icon layui-icon-close"></i>
+                </div>
+            </div>
+            <div class="layui-col-md4 layui-col-sm12">
+                <div class="form-item justify-between">
+                    <label class="">选择视频原始语言</label>
+                    <div class="input-block">
+                        <select v-model="language" class="layui-select">
+                            <option value="">选择语言&#129095;</option>
+                            <option value="zh">中文</option>
+                            <option value="en">英语</option>
+                            <option value="fr">法语</option>
+                            <option value="de">德语</option>
+                            <option value="ja">日语</option>
+                            <option value="ko">韩语</option>
+                            <option value="ru">俄语</option>
+                            <option value="es">西班牙语</option>
+                            <option value="th">泰国语</option>
+                            <option value="it">意大利语</option>
+                            <option value="pt">葡萄牙语</option>
+                            <option value="vi">越南语</option>
+                            <option value="ar">阿拉伯语</option>
+                            <option value="tr">土耳其语</option>
+                            <option value="hi">印度语</option>
+                            <option value="hu">匈牙利语</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item justify-between">
+                    <label class="">选择翻译目标语言</label>
+                    <div class="input-block">
+                        <select v-model="target_language" class="layui-select">
+                            <option value="">选择语言&#129095;</option>
+                            <option value="zh">中文</option>
+                            <option value="en">英语</option>
+                            <option value="fr">法语</option>
+                            <option value="de">德语</option>
+                            <option value="ja">日语</option>
+                            <option value="ko">韩语</option>
+                            <option value="ru">俄语</option>
+                            <option value="es">西班牙语</option>
+                            <option value="th">泰国语</option>
+                            <option value="it">意大利语</option>
+                            <option value="pt">葡萄牙语</option>
+                            <option value="vi">越南语</option>
+                            <option value="ar">阿拉伯语</option>
+                            <option value="tr">土耳其语</option>
+                            <option value="hi">印度语</option>
+                            <option value="hu">匈牙利语</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item justify-between">
+                    <label class="">选择配音所用角色</label>
+                    <div class="input-block">
+                        <select ref="roles" class="layui-select" v-model="role" :disabled="target_language===''">
+                            <option :selected="!role || role==''" value="">选择配音人</option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, XiaoxiaoNeural">zh-CN,
+                                XiaoxiaoNeural</option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, XiaoyiNeural">zh-CN, XiaoyiNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, YunjianNeural">zh-CN, YunjianNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, YunxiNeural">zh-CN, YunxiNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, YunxiaNeural">zh-CN, YunxiaNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, YunyangNeural">zh-CN, YunyangNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, liaoning-XiaobeiNeural">zh-CN,
+                                liaoning-XiaobeiNeural</option>
+                            <option :disabled="target_language!='zh'" value="zh-CN, shaanxi-XiaoniNeural">zh-CN,
+                                shaanxi-XiaoniNeural</option>
+                            <option :disabled="target_language!='zh'" value="zh-HK, HiuGaaiNeural">zh-HK, HiuGaaiNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-HK, HiuMaanNeural">zh-HK, HiuMaanNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-HK, WanLungNeural">zh-HK, WanLungNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-TW, HsiaoChenNeural">zh-TW,
+                                HsiaoChenNeural</option>
+                            <option :disabled="target_language!='zh'" value="zh-TW, HsiaoYuNeural">zh-TW, HsiaoYuNeural
+                            </option>
+                            <option :disabled="target_language!='zh'" value="zh-TW, YunJheNeural">zh-TW, YunJheNeural
+                            </option>
+
+                            <option :disabled="target_language!='en'" value="en-AU, NatashaNeural">en-AU, NatashaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-AU, WilliamNeural">en-AU, WilliamNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-CA, ClaraNeural">en-CA, ClaraNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-CA, LiamNeural">en-CA, LiamNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-GB, LibbyNeural">en-GB, LibbyNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-GB, MaisieNeural">en-GB, MaisieNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-GB, RyanNeural">en-GB, RyanNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-GB, SoniaNeural">en-GB, SoniaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-GB, ThomasNeural">en-GB, ThomasNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-HK, SamNeural">en-HK, SamNeural</option>
+                            <option :disabled="target_language!='en'" value="en-HK, YanNeural">en-HK, YanNeural</option>
+                            <option :disabled="target_language!='en'" value="en-IE, ConnorNeural">en-IE, ConnorNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-IE, EmilyNeural">en-IE, EmilyNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-IN, NeerjaExpressiveNeural">en-IN,
+                                NeerjaExpressiveNeural</option>
+                            <option :disabled="target_language!='en'" value="en-IN, NeerjaNeural">en-IN, NeerjaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-IN, PrabhatNeural">en-IN, PrabhatNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-KE, AsiliaNeural">en-KE, AsiliaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-KE, ChilembaNeural">en-KE,
+                                ChilembaNeural</option>
+                            <option :disabled="target_language!='en'" value="en-NG, AbeoNeural">en-NG, AbeoNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-NG, EzinneNeural">en-NG, EzinneNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-NZ, MitchellNeural">en-NZ,
+                                MitchellNeural</option>
+                            <option :disabled="target_language!='en'" value="en-NZ, MollyNeural">en-NZ, MollyNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-PH, JamesNeural">en-PH, JamesNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-PH, RosaNeural">en-PH, RosaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-SG, LunaNeural">en-SG, LunaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-SG, WayneNeural">en-SG, WayneNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-TZ, ElimuNeural">en-TZ, ElimuNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-TZ, ImaniNeural">en-TZ, ImaniNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-US, AnaNeural">en-US, AnaNeural</option>
+                            <option :disabled="target_language!='en'" value="en-US, AriaNeural">en-US, AriaNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-US, ChristopherNeural">en-US,
+                                ChristopherNeural</option>
+                            <option :disabled="target_language!='en'" value="en-US, EricNeural">en-US, EricNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-US, GuyNeural">en-US, GuyNeural</option>
+                            <option :disabled="target_language!='en'" value="en-US, JennyNeural">en-US, JennyNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-US, MichelleNeural">en-US,
+                                MichelleNeural</option>
+                            <option :disabled="target_language!='en'" value="en-US, RogerNeural">en-US, RogerNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-US, SteffanNeural">en-US, SteffanNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-ZA, LeahNeural">en-ZA, LeahNeural
+                            </option>
+                            <option :disabled="target_language!='en'" value="en-ZA, LukeNeural">en-ZA, LukeNeural
+                            </option>
+
+
+
+                            <option :disabled="target_language!='ar'" value="ar-AE, FatimaNeural">ar-AE, FatimaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-AE, HamdanNeural">ar-AE, HamdanNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-BH, AliNeural">ar-BH, AliNeural</option>
+                            <option :disabled="target_language!='ar'" value="ar-BH, LailaNeural">ar-BH, LailaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-DZ, AminaNeural">ar-DZ, AminaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-DZ, IsmaelNeural">ar-DZ, IsmaelNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-EG, SalmaNeural">ar-EG, SalmaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-EG, ShakirNeural">ar-EG, ShakirNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-IQ, BasselNeural">ar-IQ, BasselNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-IQ, RanaNeural">ar-IQ, RanaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-JO, SanaNeural">ar-JO, SanaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-JO, TaimNeural">ar-JO, TaimNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-KW, FahedNeural">ar-KW, FahedNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-KW, NouraNeural">ar-KW, NouraNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-LB, LaylaNeural">ar-LB, LaylaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-LB, RamiNeural">ar-LB, RamiNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-LY, ImanNeural">ar-LY, ImanNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-LY, OmarNeural">ar-LY, OmarNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-MA, JamalNeural">ar-MA, JamalNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-MA, MounaNeural">ar-MA, MounaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-OM, AbdullahNeural">ar-OM,
+                                AbdullahNeural</option>
+                            <option :disabled="target_language!='ar'" value="ar-OM, AyshaNeural">ar-OM, AyshaNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-QA, AmalNeural">ar-QA, AmalNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-QA, MoazNeural">ar-QA, MoazNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-SA, HamedNeural">ar-SA, HamedNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-SA, ZariyahNeural">ar-SA, ZariyahNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-SY, AmanyNeural">ar-SY, AmanyNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-SY, LaithNeural">ar-SY, LaithNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-TN, HediNeural">ar-TN, HediNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-TN, ReemNeural">ar-TN, ReemNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-YE, MaryamNeural">ar-YE, MaryamNeural
+                            </option>
+                            <option :disabled="target_language!='ar'" value="ar-YE, SalehNeural">ar-YE, SalehNeural
+                            </option>
+
+
+
+                            <option :disabled="target_language!='de'" value="de-AT, IngridNeural">de-AT, IngridNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-AT, JonasNeural">de-AT, JonasNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-CH, JanNeural">de-CH, JanNeural</option>
+                            <option :disabled="target_language!='de'" value="de-CH, LeniNeural">de-CH, LeniNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-DE, AmalaNeural">de-DE, AmalaNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-DE, ConradNeural">de-DE, ConradNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-DE, KatjaNeural">de-DE, KatjaNeural
+                            </option>
+                            <option :disabled="target_language!='de'" value="de-DE, KillianNeural">de-DE, KillianNeural
+                            </option>
+
+
+                            <option :disabled="target_language!='es'" value="es-AR, ElenaNeural">es-AR, ElenaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-AR, TomasNeural">es-AR, TomasNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-BO, MarceloNeural">es-BO, MarceloNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-BO, SofiaNeural">es-BO, SofiaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CL, CatalinaNeural">es-CL,
+                                CatalinaNeural</option>
+                            <option :disabled="target_language!='es'" value="es-CL, LorenzoNeural">es-CL, LorenzoNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CO, GonzaloNeural">es-CO, GonzaloNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CO, SalomeNeural">es-CO, SalomeNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CR, JuanNeural">es-CR, JuanNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CR, MariaNeural">es-CR, MariaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CU, BelkysNeural">es-CU, BelkysNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-CU, ManuelNeural">es-CU, ManuelNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-DO, EmilioNeural">es-DO, EmilioNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-DO, RamonaNeural">es-DO, RamonaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-EC, AndreaNeural">es-EC, AndreaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-EC, LuisNeural">es-EC, LuisNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-ES, AlvaroNeural">es-ES, AlvaroNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-ES, ElviraNeural">es-ES, ElviraNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-ES, ManuelEsCUNeural">es-ES,
+                                ManuelEsCUNeural</option>
+                            <option :disabled="target_language!='es'" value="es-GQ, JavierNeural">es-GQ, JavierNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-GQ, TeresaNeural">es-GQ, TeresaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-GT, AndresNeural">es-GT, AndresNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-GT, MartaNeural">es-GT, MartaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-HN, CarlosNeural">es-HN, CarlosNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-HN, KarlaNeural">es-HN, KarlaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-MX, DaliaNeural">es-MX, DaliaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-MX, JorgeNeural">es-MX, JorgeNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-MX, LorenzoEsCLNeural">es-MX,
+                                LorenzoEsCLNeural</option>
+                            <option :disabled="target_language!='es'" value="es-NI, FedericoNeural">es-NI,
+                                FedericoNeural</option>
+                            <option :disabled="target_language!='es'" value="es-NI, YolandaNeural">es-NI, YolandaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PA, MargaritaNeural">es-PA,
+                                MargaritaNeural</option>
+                            <option :disabled="target_language!='es'" value="es-PA, RobertoNeural">es-PA, RobertoNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PE, AlexNeural">es-PE, AlexNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PE, CamilaNeural">es-PE, CamilaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PR, KarinaNeural">es-PR, KarinaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PR, VictorNeural">es-PR, VictorNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PY, MarioNeural">es-PY, MarioNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-PY, TaniaNeural">es-PY, TaniaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-SV, LorenaNeural">es-SV, LorenaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-SV, RodrigoNeural">es-SV, RodrigoNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-US, AlonsoNeural">es-US, AlonsoNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-US, PalomaNeural">es-US, PalomaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-UY, MateoNeural">es-UY, MateoNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-UY, ValentinaNeural">es-UY,
+                                ValentinaNeural</option>
+                            <option :disabled="target_language!='es'" value="es-VE, PaolaNeural">es-VE, PaolaNeural
+                            </option>
+                            <option :disabled="target_language!='es'" value="es-VE, SebastianNeural">es-VE,
+                                SebastianNeural</option>
+
+
+
+                            <option :disabled="target_language!='fr'" value="fr-BE, CharlineNeural">fr-BE,
+                                CharlineNeural</option>
+                            <option :disabled="target_language!='fr'" value="fr-BE, GerardNeural">fr-BE, GerardNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-CA, AntoineNeural">fr-CA, AntoineNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-CA, JeanNeural">fr-CA, JeanNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-CA, SylvieNeural">fr-CA, SylvieNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-CH, ArianeNeural">fr-CH, ArianeNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-CH, FabriceNeural">fr-CH, FabriceNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-FR, DeniseNeural">fr-FR, DeniseNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-FR, EloiseNeural">fr-FR, EloiseNeural
+                            </option>
+                            <option :disabled="target_language!='fr'" value="fr-FR, HenriNeural">fr-FR, HenriNeural
+                            </option>
+
+                            <option :disabled="target_language!='hi'" value="hi-IN, MadhurNeural">hi-IN, MadhurNeural
+                            </option>
+                            <option :disabled="target_language!='hi'" value="hi-IN, SwaraNeural">hi-IN, SwaraNeural
+                            </option>
+
+                            <option :disabled="target_language!='hu'" value="hu-HU, NoemiNeural">hu-HU, NoemiNeural
+                            </option>
+                            <option :disabled="target_language!='hu'" value="hu-HU, TamasNeural">hu-HU, TamasNeural
+                            </option>
+
+
+                            <option :disabled="target_language!='it'" value="it-IT, DiegoNeural">it-IT, DiegoNeural
+                            </option>
+                            <option :disabled="target_language!='it'" value="it-IT, ElsaNeural">it-IT, ElsaNeural
+                            </option>
+                            <option :disabled="target_language!='it'" value="it-IT, IsabellaNeural">it-IT,
+                                IsabellaNeural</option>
+
+                            <option :disabled="target_language!='ja'" value="ja-JP, KeitaNeural">ja-JP, KeitaNeural
+                            </option>
+                            <option :disabled="target_language!='ja'" value="ja-JP, NanamiNeural">ja-JP, NanamiNeural
+                            </option>
+
+                            <option :disabled="target_language!='ko'" value="ko-KR, InJoonNeural">ko-KR, InJoonNeural
+                            </option>
+                            <option :disabled="target_language!='ko'" value="ko-KR, SunHiNeural">ko-KR, SunHiNeural
+                            </option>
+
+
+
+
+                            <option :disabled="target_language!='pt'" value="pt-BR, AntonioNeural">pt-BR, AntonioNeural
+                            </option>
+                            <option :disabled="target_language!='pt'" value="pt-BR, FranciscaNeural">pt-BR,
+                                FranciscaNeural</option>
+                            <option :disabled="target_language!='pt'" value="pt-PT, DuarteNeural">pt-PT, DuarteNeural
+                            </option>
+                            <option :disabled="target_language!='pt'" value="pt-PT, RaquelNeural">pt-PT, RaquelNeural
+                            </option>
+
+                            <option :disabled="target_language!='ru'" value="ru-RU, DmitryNeural">ru-RU, DmitryNeural
+                            </option>
+                            <option :disabled="target_language!='ru'" value="ru-RU, SvetlanaNeural">ru-RU,
+                                SvetlanaNeural</option>
+
+
+                            <option :disabled="target_language!='th'" value="th-TH, NiwatNeural">th-TH, NiwatNeural
+                            </option>
+                            <option :disabled="target_language!='th'" value="th-TH, PremwadeeNeural">th-TH,
+                                PremwadeeNeural</option>
+
+                            <option :disabled="target_language!='tr'" value="tr-TR, AhmetNeural">tr-TR, AhmetNeural
+                            </option>
+                            <option :disabled="target_language!='tr'" value="tr-TR, EmelNeural">tr-TR, EmelNeural
+                            </option>
+
+                            <option :disabled="target_language!='vi'" value="vi-VN, HoaiMyNeural">vi-VN, HoaiMyNeural
+                            </option>
+                            <option :disabled="target_language!='vi'" value="vi-VN, NamMinhNeural">vi-VN, NamMinhNeural
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item mt-1 my-3 justify-between">
+                    <div>
+                        <input type="checkbox" v-model="auto_rate" id="auto_rate">
+                        <label for="auto_rate">自动加速对齐字幕?</label>
+                    </div>
+                    <div>
+                        <input id="emebd_srt" type="checkbox" v-model="emebd_srt" :checked="emebd_srt">
+                        <label for="emebd_srt">嵌入字幕?</label>
+                    </div>
+                </div>
+                <div class="form-item mt-1 my-3">
+                    <label for="" class="">语速</label>
+                    <div ref="rate" id="rate" style="flex-grow: 1;"></div>
+                </div>
+                <div class="form-item mt-1 my-3">
+                    <label for="" class="">音调</label>
+                    <div ref="pitch" id="pitch" style="flex-grow: 1;"></div>
+                </div>
+
+                <div class="my-3">
+                    <button class="layui-btn" @click="start">立即开始翻译视频</button>
+                </div>
+            </div>
+        </div>
+        <div id="tips" :class="tipscolor" class="my-2   text-center">{{message}}</div>
+
+        <div v-if="output && output['src']" class="my-2 flex align-center " style="flex-direction: column;">
+            <a :href="output['src']" style="width: 150px;" :download="name" class="layui-btn layui-btn-normal">下载视频</a>
+            <video class="my-2 mx-auto"  :src="output['src']" controls></video>
+        </div>
+
+
+
+
+
+        <hr style="border-color: #444;margin: 80px auto 20px;">
+
+        <div style="text-align:center">
+            <a href="https://www.pyvideotrans.com/"
+                target="_blank">受限于服务器资源，在线功能有限制，如需完整功能，请下载免费开源的“视频翻译配音工具”，在本地处理。点击去下载 </a>
+            <br>
+            <img src="https://www.pyvideotrans.com/images/mp.jpg?a=1"
+                style="width:150px;margin:10px;display:inline-block;">
+            <img src="https://www.pyvideotrans.com/images/wxpay.jpg"
+                style="width:150px;margin:10px;display:inline-block">
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="/static/layui/layui.js"></script>
+    <script src="/static/assets/ffmpeg/package/dist/umd/ffmpeg.js"></script>
+    <script src="/static/assets/util/package/dist/umd/index.js"></script>
+    <script src="/static/vue.js"></script>
+
+
+    <script>
+
+        window.$ = layui.$;
+        window.apiurl = 'http://sttapi.pyvideotrans.com'
+        const { fetchFile } = FFmpegUtil;
+        const { FFmpeg } = FFmpegWASM;
+        const { createApp } = Vue
+        let ffmpeg = null;
+        let exts = ['mp4', 'avi', 'mpeg', 'mov', 'mkv'];
+        var fontFile = "./simhei.ttf";
+        var fontURL = "./fonts/simhei.ttf";
+
+
+
+        const app = createApp({
+            data() {
+                return {
+                    exts: ["mp4", "avi", "mov", "mkv", "mpeg"],
+                    raw_video: {},
+                    raw_wav: {},
+                    raw_srt: "",
+                    dubb_wav: "dubbing.wav",
+                    trans_srt: "trans.srt",
+                    emebd_srt:true,
+                    language: "",
+                    target_language: "",
+                    rate: '0',
+                    role: '',
+                    pitch: '0',
+                    auto_rate: '',
+                    hasinit: false,
+                    output: {},
+                    loading: false,
+                    up_loading: null,
+                    unid: "",
+                    timeid: null,
+                    message: "",
+                    name:"dubbing-srt",
+                    tipscolor:'layui-font-green'
+                }
+            },
+            computed: {
+
+            },
+            watch: {
+                'target_language': function (newl, old) {
+                    console.log(newl, old)
+                    this.role = ''
+                },
+                'role': function (newl, old) {
+                    console.log(`newl=${newl},old=${old}`)
+                }
+            },
+            mounted() {
+                let d = new Date();
+                this.unid = `${d.getFullYear()}${d.getMonth()}${d.getDate()}-${d.getHours()}${d.getMinutes()}${d.getSeconds()}-${parseInt(Math.random() * 1000000)}`
+                this.loadffmpeg();
+                this.hasinit = true;
+                layui.use(() => {
+                    window.slider = layui.slider;
+                    window.layer = layui.layer;
+                    console.log(this.$refs.rate.tagName)
+                    // 渲染
+                    window.slider.render({
+                        elem: this.$refs.rate,
+                        value: 0, // 初始值
+                        min: -50,
+                        max: 100,
+                        step: 1,
+                        done: val => {
+                            console.log(val)
+                            this.rate = val
+                        },
+                        tipsAlways: true,
+                        tips: true, // 开启提示文本
+                        setTips: function (value) { // 自定义提示文本
+                            return (value > 0 ? `+${value}` : value) + '%';
+                        }
+
+                    });
+                    window.slider.render({
+                        elem: this.$refs.pitch,
+                        min: -50,
+                        max: 50,
+                        value: 0, // 初始值
+                        done: val => {
+                            this.pitch = val
+                        },
+                        tips: true,
+                        tipsAlways: true, // 开启始终显示提示文本
+                        setTips: function (value) { // 自定义提示文本
+                            return (value > 0 ? `+${value}` : value) + '%';
+                        }
+
+                    });
+                })
+            },
+            methods: {
+                // 上传
+                async upload(e) {
+                    console.log(e.target.files)
+                    let file = e.target.files[0];
+                    this.name=file.name.replace(/\s/g,'')
+                    await this.transcode(file);
+                    await this.start_sep()
+                },
+                // 关闭预览
+                closepreview() {
+                    this.raw_video = {}
+                },
+                // 上传预览 初始化数据
+                async transcode(file) {
+                    let load1 = layer.load();
+                    this.message = '预处理中请等待..';
+                    await this.loadffmpeg()
+                    const { name, type } = file;
+
+                    await ffmpeg.writeFile(name, await fetchFile(file));
+
+                    let outname = `raw_video.mp4`
+                    console.log(`outname=${outname}`)
+
+                    await ffmpeg.exec(['-i', name, outname]);
+
+                    this.message = "完成预处理";
+                    const data = await ffmpeg.readFile(outname);
+                    let src = URL.createObjectURL(new Blob([data.buffer], { type: "audio/wav" }))
+                    this.raw_video = { file: outname, name: name, src: src }
+                    layer.close(load1)
+                },
+
+                // 嵌入字幕
+                async start_sub() {
+                    console.log('进入 start_sub')
+                    this.loadffmpeg()
+                    let outname_end=''
+                    await ffmpeg.writeFile(fontFile, await fetchFile(fontURL));
+                    console.log('11')
+                    let cmd = [
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.raw_video['file'],
+                    ]
+                    console.log(cmd)
+                    if(window.dubb_blob){
+                        await ffmpeg.writeFile('dubbing.wav', await fetchFile(window.dubb_blob));
+                        cmd.push(
+                            '-i',
+                            'dubbing.wav',
+                            '-filter_complex',
+                            "[1:a]apad",
+                            '-c:v',
+                            'libx264',
+                            "-c:a",
+                            "aac",
+                            "-shortest",
+                            'add-dubbing.mp4',
+                        )
+                        await ffmpeg.exec(cmd);
+                        outname_end="add-dubbing.mp4"
+                    }
+
+                    
+                    
+                    if(this.emebd_srt && window.srt_blob){
+                        await ffmpeg.writeFile('trans.srt', await fetchFile(window.srt_blob));
+                        outname_end=window.dubb_blob?'add-dubbing-srt.mp4':'only-add-srt.mp4'
+                        cmd=[
+                            "-y",
+                            "-hide_banner",
+                            "-ignore_unknown",
+                            "-i",
+                            window.dubb_blob?'add-dubbing.mp4':this.raw_video['file'],
+                            '-vf',
+                            `subtitles=trans.srt:fontsdir=./:force_style='Fontname=simhei,Fontsize=18'`,
+                            '-c:v',
+                            'libx264',
+                            outname_end
+                        ]
+                        await ffmpeg.exec(cmd);
+                    }
+                    this.name=outname_end
+                    const data = await ffmpeg.readFile(outname_end);
+                    let src = URL.createObjectURL(new Blob([data.buffer], { type: "video/mp4" }));
+                    this.output = { src: src, name: outname_end }
+                    layer.close(this.up_loading)
+                },
+
+                async loadffmpeg() {
+                    if (ffmpeg === null) {
+                        ffmpeg = new FFmpeg();
+                        ffmpeg.on("log", ({ message }) => {
+                            console.log(message);
+                        });
+                        ffmpeg.on("progress", ({ progress, time }) => {
+                            if (this.hasinit) {
+                                this.message = `预处理进度${parseInt(
+                                    progress * 100
+                                )} %`;
+                            }
+                        });
+                        await ffmpeg.load({
+                            coreURL: "/static/assets/core/package/dist/umd/ffmpeg-core.js",
+                        });
+                    }
+                },
+                // 从视频中提取音频
+                async start_sep() {
+                    if (!this.raw_video || !this.raw_video['file']) {
+                        layer.alert('需要上传视频，才可提取音频', { title: false })
+                        return
+                    }
+                    let load1 = layer.load();
+                    this.loadffmpeg()
+
+                    
+
+                    await ffmpeg.exec([
+                        "-y",
+                        "-hide_banner",
+                        "-ignore_unknown",
+                        "-i",
+                        this.raw_video['file'],
+                        "-ac",
+                        "1",
+                        "-ar",
+                        "8000",
+                        "-acodec",
+                        "pcm_s16le",
+                        `output-sep.wav`,
+                    ]);
+                    const data = await ffmpeg.readFile(`output-sep.wav`);
+                    let src = new Blob([data.buffer], { type: "audio/wav" });
+                    this.raw_wav = { file: "output-sep.wav", src: src };
+
+                    layer.close(load1)
+                },
+                async start() {
+                    if (this.loading) {
+                        return false;
+                    }
+                    if(!this.raw_wav || !this.raw_wav['src']){
+                        layer.alert('必须上传含有人类说话声的视频才可翻译',{title:false})
+                        return
+                    }
+
+
+                    if (!this.language || !this.target_language) {
+                        layer.alert("必须选择视频原始语言和目标语言", { title: false });
+                        return false;
+                    }
+                    if (this.role && (this.role.substring(0, 2) != this.target_language)) {
+                        layer.alert("请重新选择配音角色，必须是同目标语言匹配的角色", { title: false });
+                        return
+                    }
+
+                    let d = new Date()
+                    this.unid = `transvideo-${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${parseInt(Math.random() * 1000000)}`
+                    this.up_loading = layer.load(); // 上传 loading
+                    const formData = new FormData();
+                    formData.append("file", this.raw_wav['src'], "audio.wav");
+                    formData.append("unid", this.unid);
+                    formData.append("language", this.language);
+                    formData.append("target_language", this.target_language);
+                    formData.append("rate", this.rate??'0');
+                    formData.append("role", this.role);
+                    formData.append("pitch", this.pitch??'0');
+                    formData.append("auto_rate", this.auto_rate?1:0);
+                    window.ceshi = formData
+                    console.log(formData)
+                    // return
+                    // 发送请求到 FastAPI 服务端
+                    fetch(`${window.apiurl}/transvideo`, {
+                        method: "POST",
+                        body: formData,
+                    })
+                        .then((response) => response.json())
+                        .then((res) => {
+                            if (res['code'] !== 0) {
+                                layer.alert("上传失败:" + res['msg'], { title: false });
+                                return false;
+                            }
+                            layer.msg("上传成功,等待处理");
+                            this.timeid = setInterval(() => {
+                                 this.checkjindu()
+                            }, 3000)
+                        })
+                        .catch((error) => {
+                            layer.close(this.up_loading);
+                            console.error("Error:", error);
+                            layer.alert("上传失败:" + error, { title: false });
+                        });
+                },
+                checkjindu() {
+                    console.log('checkjindu')
+                    $.post(`${window.apiurl}/transvideo_status`, { unid: this.unid }, res => {
+                        console.log(`res=${res}`)
+                        if (!res || res['code'] !== 0) {
+                            clearInterval(this.timeid);
+                            layer.close(this.up_loading)
+                            this.tipscolor='layui-font-red'
+                            if(res && res['msg']){
+                                this.message=res['msg']
+                            }
+                            return
+                        }
+                        if (res['msg'] !== 'ok') {
+                            this.message=res['msg']
+                        } else {
+                            clearInterval(this.timeid)
+                            console.log(res.data);
+                            this.message="已完成，开始合成最终视频"
+                            window.srt_blob= URL.createObjectURL(new Blob([res.data['trans_srt']], { type: 'text/plain' }))
+                            
+                            if (res.data['dubb_wav']) {
+                                window.dubb_blob=base64ToUint8Array(res.data['dubb_wav'])
+                            }
+                            this.start_sub()
+                        }
+                    })
+                }
+            },
+        }).mount('#app')
+
+        // Helper function to convert Base64 string to Uint8Array.
+        function base64ToUint8Array(base64) {
+            var audioData = window.atob(base64);
+            var audioArrayBuffer = new ArrayBuffer(audioData.length);
+            var audioView = new Uint8Array(audioArrayBuffer);
+            for (var i = 0; i < audioData.length; i++) {
+                audioView[i] = audioData.charCodeAt(i);
+            }
+
+            // 利用 ArrayBuffer 对象创建 Blob 对象
+            return  URL.createObjectURL(new Blob([audioArrayBuffer], { type: 'audio/wav' }));
+
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
